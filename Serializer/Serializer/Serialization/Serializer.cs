@@ -190,28 +190,28 @@ namespace Assets.Serialization
             switch (o)
             {
                 case null:
-                    throw new NotImplementedException("Fill me in");
+                    Write("null");
                     break;
 
                 case int i:
-                    throw new NotImplementedException("Fill me in");
+                    Write(i);
                     break;
 
                 case float f:
-                    throw new NotImplementedException("Fill me in");
+                    Write(f);
                     break;
 
                 // Not: don't worry about handling strings that contain quote marks
                 case string s:
-                    throw new NotImplementedException("Fill me in");
+                    Write('\"'+s+ '\"');
                     break;
 
                 case bool b:
-                    throw new NotImplementedException("Fill me in");
+                    Write(b);
                     break;
 
                 case IList list:
-                    throw new NotImplementedException("Fill me in");
+                    WriteList(list);
                     break;
 
                 default:
@@ -231,7 +231,33 @@ namespace Assets.Serialization
         /// <param name="o">Object to serialize</param>
         private void WriteComplexObject(object o)
         {
-            throw new NotImplementedException("Fill me in");
+            if (o != null)
+            {
+                (int id, bool is_new) = GetId(o);
+                if(is_new == false)
+                {
+                    Write("#" + id);
+                }
+                else ///Iterate over fields stored in (list of fields), call for loop
+                {
+                    Write("#" + id);
+                    WriteBracketedExpression(
+                        "{",
+                        () => {
+                            WriteField("type", o.GetType().Name, true);
+                            IEnumerable<KeyValuePair<string, object>> list_of_fields = Utilities.SerializedFields(o);
+                            //for loop here
+                            foreach (var field in list_of_fields)
+                            {
+                                WriteField(field.Key, field.Value,false);
+
+                            }
+                        },
+                        "}"
+                        );
+
+                }
+            }
         }
     }
 }

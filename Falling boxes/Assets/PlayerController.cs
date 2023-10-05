@@ -96,6 +96,10 @@ public class PlayerController : MonoBehaviour {
         get
         {
             // TODO: Fix this
+            if (Input.GetKeyDown("d"))
+            {
+                return true;
+            }
             return false;
         }
     }
@@ -108,6 +112,10 @@ public class PlayerController : MonoBehaviour {
         get
         {
             // TODO: Fix this
+            if (Input.GetKeyDown("a"))
+            {
+                return true;
+            }
             return false;
         }
     }
@@ -120,6 +128,10 @@ public class PlayerController : MonoBehaviour {
         get
         {
             // TODO: Fix this
+            if (Input.GetKeyDown("s"))
+            {
+                return true;
+            }
             return false;
         }
     }
@@ -132,6 +144,10 @@ public class PlayerController : MonoBehaviour {
         get
         {
             // TODO: Fix this
+            if (Input.GetKeyDown("w"))
+            {
+                return true;
+            }
             return false;
         }
     }
