@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-/// Even handler for Orb objects
+/// Event handler for Orb objects
 /// </summary>
 public class Orb : MonoBehaviour
 {
@@ -13,6 +13,7 @@ public class Orb : MonoBehaviour
     void OnBecameInvisible()
     {
         // TODO
+        Orb.Destroy(gameObject);
     }
 
     /// <summary>
@@ -23,5 +24,11 @@ public class Orb : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         // TODO
+        //print($"{collision.collider}");
+        if (collision.collider.gameObject.GetComponent<Orb>() == null)
+        {
+            Orb.Destroy(gameObject);
+        }
+
     }
 }

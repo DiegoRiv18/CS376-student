@@ -1,4 +1,6 @@
+using UnityEditor.UI;
 using UnityEngine;
+using UnityEngine.Animations;
 
 /// <summary>
 /// Control the player on screen
@@ -25,7 +27,16 @@ public class Player : MonoBehaviour
     /// How fast we should shoot our orbs
     /// </summary>
     public float OrbVelocity = 10;
-
+    /// <summary>
+    /// Start the game by creating a Rigidbody2D
+    /// </summary>
+    /// 
+    public Rigidbody2D Rigidbody;
+    private void Start()
+    {
+        //TODO
+        Rigidbody = GetComponent<Rigidbody2D>();
+    }
     /// <summary>
     /// Handle moving and firing.
     /// Called by Uniity every 1/50th of a second, regardless of the graphics card's frame rate
@@ -44,6 +55,13 @@ public class Player : MonoBehaviour
     void MaybeFire()
     {
         // TODO
+        if (Input.GetAxis("Fire") == 1)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                FireOrb();
+            }
+        }
     }
 
     /// <summary>
@@ -54,6 +72,10 @@ public class Player : MonoBehaviour
     private void FireOrb()
     {
         // TODO
+        var playerpos = new Vector2(Rigidbody.transform.localPosition.x + transform.right.x, Rigidbody.transform.localPosition.y + transform.right.y);
+        var orb = Instantiate(OrbPrefab, playerpos, Quaternion.identity, Rigidbody.transform);
+        orb.GetComponent<Rigidbody2D>().velocity = Rigidbody.transform.right * OrbVelocity;
+       
     }
 
     /// <summary>
@@ -65,6 +87,11 @@ public class Player : MonoBehaviour
     void Manoeuvre()
     {
         // TODO
+        var force = new Vector2(Input.GetAxis("Horizontal") * EnginePower, Input.GetAxis("Vertical") * EnginePower);
+
+        Rigidbody.AddForce(force);
+        Rigidbody.angularVelocity = Input.GetAxis("Rotate") * RotateSpeed;
+
     }
 
     /// <summary>
